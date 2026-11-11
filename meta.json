@@ -1,7 +1,7 @@
 {
- "commit": "treasure-box v2 e81ff57",
+ "commit": "treasure-box v2 3b97214",
  "date": "2026-11-11",
- "specs": 51,
+ "specs": 52,
  "balance": {
   "seeds": 48,
   "free": {"boxpet": 0.22, "A": 0.10, "pet": 7.72, "S": 2.61, "SS": 4.39, "SSS": 21.16, "setS": 14.61, "setSSS": 51.60},
