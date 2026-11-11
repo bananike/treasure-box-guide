@@ -1,10 +1,28 @@
 {
- "commit": "treasure-box v2 3b97214",
+ "commit": "treasure-box v2 a79e6e4",
  "date": "2026-11-11",
- "specs": 52,
+ "specs": 53,
  "balance": {
   "seeds": 48,
-  "free": {"boxpet": 0.22, "A": 0.10, "pet": 7.72, "S": 2.61, "SS": 4.39, "SSS": 21.16, "setS": 14.61, "setSSS": 51.60},
-  "paid": {"boxpet": 0.14, "A": 0.08, "pet": 4.99, "S": 2.07, "SS": 2.98, "SSS": 13.97, "setS": 9.50, "setSSS": 33.59}
+  "free": {
+   "boxpet": 0.3,
+   "A": 0.13,
+   "pet": 10.11,
+   "S": 3.15,
+   "SS": 5.15,
+   "SSS": 27.69,
+   "setS": 20.79,
+   "setSSS": 66.19
+  },
+  "paid": {
+   "boxpet": 0.14,
+   "A": 0.07,
+   "pet": 5.14,
+   "S": 1.63,
+   "SS": 2.77,
+   "SSS": 12.85,
+   "setS": 9.94,
+   "setSSS": 31.97
+  }
  }
 }

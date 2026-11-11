@@ -263,8 +263,9 @@ for s in PD['skills']:
 pets += '<h3>신수·시즌 팻 스킬</h3>' + table(['팻', '스킬', '종류', '발동 (D 기준)', '발동 확률 (D · A · S · SSS)'], rows, 'first-wide')
 pets += '<p class="note">신수 팻은 각성 등급의 배수(아래)가 발동 확률에 곱해집니다. 상한은 연타 60%, 나머지 30%. 시즌 팻은 각성이 없어 고정입니다.</p>'
 pets += '<p class="note">효과: 연타 = 그 클릭에 추가 타. 분신 = 지속시간 동안 분신이 손 속도로 같이 칩니다. 손 폭주 = 손 공격 속도 배수. 팻 폭주 = 팻 공격 속도 배수. 내리꽂기 = 「손으로 N초 칠 만큼」의 타수가 한 번에 들어갑니다.</p>'
-rows = [[chip(i), f'×{m}', f'×{PD["awakenSize"][i-1]}'] for i, m in enumerate(PD['awakenMult'], start=1)]
-pets += '<div class="two"><div><h3>신수 팻 각성</h3>' + table(['각성', '스킬 확률 배수', '몸 크기'], rows, 'num')
+CH = D['field']['characterHeight']
+rows = [[chip(i), f'×{m}', f'{PD["heightRatio"][i-1]:g}배 <span class="dim">({CH * PD["heightRatio"][i-1]:.1f}스터드)</span>'] for i, m in enumerate(PD['awakenMult'], start=1)]
+pets += '<div class="two"><div><h3>신수 팻 각성</h3>' + table(['각성', '스킬 확률 배수', '키 (캐릭터 = 1배)'], rows, 'num')
 pets += '</div><div><p>신수 팻은 처음 생길 때 <b>D</b>에서 시작합니다. 한 단계 올리려면 지금보다 한 등급 이상 높은 그 세트 조각을 <b>7부위 모두 다시</b> 얻어야 합니다(자동 판매된 조각도 셉니다). 한 번에 한 단계씩.</p>'
 pets += fig('img/fx/pets_lineup.webp', '신수 팻 다섯', False) + '</div></div>'
 rows = []
@@ -273,7 +274,7 @@ for b in PD['boxPets']:
 soul = ' → '.join(f'{GN[i]}→{GN[i+1]} {c}개' for i, c in enumerate(PD['soulCost']))
 pc = D['field']['petChance']
 pets += '<h3>상자 팻 8종</h3>'
-pets += f'<p>필드 상자를 깰 때 <b>상자 등급 × 0.2%</b> 확률로 나옵니다(D {pct(pc[0])} ~ SSS {pct(pc[7])}). 아직 상자 팻이 하나도 없으면 <b>{D["field"]["firstPetBoost"]}배</b>(첫 팻 맛보기). 같은 팻이 또 나오면 그 팻의 영혼 1개가 되고, 영혼으로 등급을 올립니다: {soul}. 상자 팻 등급은 크기와 빛만 바꾸고 스킬은 없습니다.</p>'
+pets += f'<p>필드 상자를 깰 때 <b>상자 등급 × 0.2%</b> 확률로 나옵니다(D {pct(pc[0])} ~ SSS {pct(pc[7])}). 아직 상자 팻이 하나도 없으면 <b>{D["field"]["firstPetBoost"]}배</b>(첫 팻 맛보기). 같은 팻이 또 나오면 그 팻의 영혼 1개가 되고, 영혼으로 등급을 올립니다: {soul}. 상자 팻 등급은 키와 빛만 바꾸고 스킬은 없습니다. 키는 신수 팻과 같은 표를 따릅니다(D = 캐릭터의 절반 → SSS = 캐릭터의 2배).</p>'
 pets += table(['', '이름', '팻 상자 비중'], rows, 'pets')
 pets += '<p class="note">팻 상자(상점 149 로벅스)는 상자 팻 8종만 나오고, 이미 가진 팻은 빠집니다. 8종을 다 가졌으면 대신 강화 주문서 15장.</p>'
 pets += '<p class="new">팻 자리: 따라다닐 때는 오른쪽 뒤 · 왼쪽 뒤 · 바로 뒤, 상자를 칠 때는 캐릭터 반대쪽(상자 양옆과 뒤)에 섭니다. 팻마다 실제 몸 크기를 재서 캐릭터 · 다른 팻 · 상자와 겹치지 않게 떨어지고, 각성으로 커지면 그만큼 더 떨어집니다.</p>'
@@ -302,11 +303,13 @@ field += f'''<ul class="ticks">
 <li><b>코인</b> = 10 × 1.6^(등급−1) × (1 + 판매 보너스 + 친구 보너스), 반올림.</li>
 <li><b>상자 수</b>: 구역마다 최소 {F["zoneMin"]}개, 그 구역 사람 1명당 +{F["perPlayer"]}개, 최대 {F["zoneMax"]}개. 깨면 {F["respawn"]}초 뒤 새로 놓입니다.</li>
 <li><b>타격 거리</b>: 상자 가장자리에서 {F["strike"]}스터드 안이면 그 자리에서 치고, 더 멀면 상자 앞까지 걸어가서 칩니다(서버는 지연을 감안해 {F["reach"]}스터드까지 받아 줌). 거리를 늘리는 능력치는 없습니다.</li>
+<li><b>상자 크기</b>: 등급이 오를수록 커집니다 — {' · '.join(f'{GN[i]} {w:g}' for i, w in enumerate(F['boxSizes']))}스터드(D의 1~4배).</li>
 <li><b>찜</b>: 먼저 친 사람이 그 상자를 가집니다. {F["claimIdle"]}초 동안 안 치면 풀립니다.</li>
 </ul></div>'''
 field += '<h3>보스 상자</h3>'
 bh = ' · '.join(f'{z["name"]} {num(F["bossHits"][i])}' for i, z in enumerate(F['zones']))
 field += f'<p>각 구역에 <b>{F["bossEvery"]//60}분마다</b> 나타나 <b>{F["bossTime"]//60}분</b> 안에 깨야 합니다. 필요 타수 = 기준 × (그 구역 사람 수 + 0.5). 기준: {bh}. 깨지면 친 몫이 {pct(F["bossShare"])} 이상인 모두가 보상 1번, 상위 {F["bossTop"]}명은 2번. 보상 한 번 = 그 구역 상자 두 개를 굴려 좋은 쪽.</p>'
+field += f'<p class="new">보스 상자는 폭 <b>{F["bossSize"]}스터드</b>(SSS 상자의 {F["bossSize"]/F["boxSizes"][7]:.1f}배)이고, 그 자리에 <b>하늘까지 {F["pillarHeight"]}스터드 빛기둥</b>(구역 보스 등급 색)이 서서 맵 어디서든 보입니다. 보스가 내려앉는 자리에 있던 빈 상자는 치워지고 다른 곳에 다시 놓입니다.</p>'
 field += '<div class="trio">' + fig('img/fx/break1.webp', '상자가 깨질 때 0.15초 — 뚜껑이 열림', False) + fig('img/fx/break2.webp', '0.45초 — 조각이 쏟아지고 빛기둥', False) + fig('img/fx/break4.webp', '1.15초 — 조각이 몸으로 빨려 들어감', False) + '</div>'
 field += '<div class="trio">' + fig('img/fx/move1.webp', '타격 동작: 정권', False) + fig('img/fx/move3.webp', '앞차기', False) + fig('img/fx/move4.webp', '세트 착용 돌려차기', False) + '</div>'
 field += fig(P['상자/전체/front'], '구역별 상자 전체 — 등급이 오를수록 크고 화려해집니다')
@@ -341,7 +344,7 @@ def odds(key):
 
 
 rows = [
-    ['자동 공격', f'{PR["auto"]} / 월', '손 간격의 2배마다 자동으로 칩니다. 꺼져 있어도(접속 안 해도) 최대 12시간까지 정산.'],
+    ['자동 공격', f'{PR["auto"]} / 월', f'차지한 상자를 손 공격보다 {D["stats"]["baseInterval"] / D["stats"]["baseAuto"]:.1f}배 빠르게 자동으로 칩니다. 꺼져 있어도(접속 안 해도) 최대 12시간까지 정산.'],
     ['팻 칸 2', f'{PR["petSlot2"]} / 월', '팻을 2마리 데리고 다닙니다.'],
     ['팻 칸 3', f'{PR["petSlot3"]} / 월', '3마리.'],
 ]
@@ -373,7 +376,8 @@ for k, label in (('boxpet', '첫 상자 팻'), ('A', '첫 A 장비'), ('S', '첫
         return f'{m}분' if m < 60 else (f'{m//60}시간 {m%60}분' if m % 60 else f'{m//60}시간')
     rows.append([label, hm(f), hm(p), f'{p/f:.2f}배'])
 bal = table(['도달 목표', '무료 (팻 1칸)', '구독 (자동 공격 + 팻 3칸)', '구독 / 무료'], rows, 'num first-wide')
-bal += f'<p class="note">시뮬레이션: 실제 보상 코드를 그대로 돌린 접속 시간 기준 중앙값({B["seeds"]}회). 오프라인 정산은 빼고 셈. 기준선 — 무료: 첫 A 2~7분, 첫 S 1.5~3시간, 신수 팻 5~12시간, SSS 10~25시간. 구독: 무료의 0.5~1배(앞서되 건너뛰지 않게).</p>'
+bal += f'<p class="note">시뮬레이션: 실제 보상 코드를 그대로 돌린 접속 시간 기준 중앙값({B["seeds"]}회). 오프라인 정산은 빼고 셈. 기준선 — 무료: 첫 A 3~8분, 첫 S 2.8~3.8시간, 신수 팻 8.7~11.8시간, SSS 21.8~29.6시간. 구독: 무료의 0.4~0.6배(약 절반).</p>'
+bal += '<p class="new">11-11 조정: 구독 도달시간은 그대로 두고 무료를 약 2배 느리게 했습니다(상자 타수 ×1.55). 자동 공격은 손보다 1.4배 빠르게 바뀌었습니다(전엔 손의 절반 속도).</p>'
 body.append(section('balance', '밸런스 시험 결과', bal, f'{esc(META["date"])} 출시 전 재시험. 전체 시험 {META["specs"]}개 통과.'))
 
 # ---------- page ----------

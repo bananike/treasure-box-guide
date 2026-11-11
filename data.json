@@ -324,8 +324,20 @@
       2480
     ],
     "bossShare": 0.05,
+    "bossSize": 40,
     "bossTime": 300,
     "bossTop": 3,
+    "boxSizes": [
+      4,
+      5,
+      6.2,
+      7.6,
+      9.2,
+      11,
+      13.3,
+      16
+    ],
+    "characterHeight": 5.2,
     "claimIdle": 5,
     "climb": [
       1,
@@ -349,14 +361,14 @@
     ],
     "firstPetBoost": 8,
     "hits": [
-      20,
-      35,
-      60,
-      120,
-      700,
-      2400,
-      3500,
-      10000
+      31,
+      54,
+      93,
+      186,
+      1085,
+      3720,
+      5425,
+      15500
     ],
     "maxPlayers": 24,
     "perPlayer": 3,
@@ -370,6 +382,7 @@
       0.014,
       0.016
     ],
+    "pillarHeight": 600,
     "reach": 10,
     "respawn": 2,
     "scrollChance": [
@@ -788,16 +801,6 @@
       2.6,
       3
     ],
-    "awakenSize": [
-      1,
-      1.08,
-      1.17,
-      1.28,
-      1.42,
-      1.6,
-      1.9,
-      2.5
-    ],
     "base": 1,
     "boxPets": [
       {
@@ -843,6 +846,16 @@
     ],
     "freeSlots": 1,
     "handShare": 0.9,
+    "heightRatio": [
+      0.5,
+      0.6,
+      0.72,
+      0.86,
+      1.02,
+      1.25,
+      1.55,
+      2
+    ],
     "skills": [
       {
         "chance": [
@@ -1510,6 +1523,7 @@
     }
   ],
   "stats": {
+    "baseAuto": 0.35,
     "baseInterval": 0.5,
     "baseWalk": 16,
     "maxWalk": 28,
