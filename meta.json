@@ -1,0 +1,10 @@
+{
+ "commit": "treasure-box v2 e2f2072",
+ "date": "2026-11-11",
+ "specs": 51,
+ "balance": {
+  "seeds": 48,
+  "free": {"boxpet": 0.22, "A": 0.10, "pet": 7.72, "S": 2.61, "SS": 4.39, "SSS": 21.16, "setS": 14.61, "setSSS": 51.60},
+  "paid": {"boxpet": 0.14, "A": 0.08, "pet": 4.99, "S": 2.07, "SS": 2.98, "SSS": 13.97, "setS": 9.50, "setSSS": 33.59}
+ }
+}
