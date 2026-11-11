@@ -371,7 +371,7 @@
       15500
     ],
     "maxPlayers": 24,
-    "perPlayer": 3,
+    "perPlayer": 4,
     "petChance": [
       0.002,
       0.004,
@@ -427,7 +427,7 @@
       0.06
     ],
     "zoneMax": 48,
-    "zoneMin": 8,
+    "zoneMin": 12,
     "zones": [
       {
         "boss": "초원의 거목궤",
@@ -847,15 +847,61 @@
     "freeSlots": 1,
     "handShare": 0.9,
     "heightRatio": [
-      0.5,
-      0.6,
-      0.72,
-      0.86,
-      1.02,
-      1.25,
-      1.55,
-      2
+      1,
+      1.2,
+      1.44,
+      1.72,
+      2.04,
+      2.5,
+      3.1,
+      4
     ],
+    "ride": {
+      "baseWalk": 16,
+      "glideBoost": 1.25,
+      "glideFall": 7,
+      "max": 48,
+      "maxWalk": 28,
+      "minRatio": 0.9,
+      "moves": [
+        {
+          "id": "set1",
+          "move": "glide",
+          "name": "청룡"
+        },
+        {
+          "id": "set3",
+          "move": "glide",
+          "name": "주작"
+        },
+        {
+          "id": "set4",
+          "move": "swim",
+          "name": "현무"
+        },
+        {
+          "id": "boxpet6",
+          "move": "glide",
+          "name": "구름 매"
+        },
+        {
+          "id": "boxpet8",
+          "move": "swim",
+          "name": "달방울 현무"
+        }
+      ],
+      "mult": [
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2,
+        2.1
+      ],
+      "seasonGrade": 4
+    },
     "skills": [
       {
         "chance": [

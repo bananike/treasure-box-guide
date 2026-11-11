@@ -268,16 +268,39 @@ rows = [[chip(i), f'×{m}', f'{PD["heightRatio"][i-1]:g}배 <span class="dim">({
 pets += '<div class="two"><div><h3>신수 팻 각성</h3>' + table(['각성', '스킬 확률 배수', '키 (캐릭터 = 1배)'], rows, 'num')
 pets += '</div><div><p>신수 팻은 처음 생길 때 <b>D</b>에서 시작합니다. 한 단계 올리려면 지금보다 한 등급 이상 높은 그 세트 조각을 <b>7부위 모두 다시</b> 얻어야 합니다(자동 판매된 조각도 셉니다). 한 번에 한 단계씩.</p>'
 pets += fig('img/fx/pets_lineup.webp', '신수 팻 다섯', False) + '</div></div>'
+pets += '<p class="new">11-11 조정: 팻 키를 모두 두 배로 키웠습니다(전엔 D가 캐릭터의 절반, SSS가 2배).</p>' + fig('img/fx/pets_big.webp', '두 배로 커진 팻')
 rows = []
 for b in PD['boxPets']:
     rows.append([photo('펫/' + b['name'] + '/front', b['name'], 'ph tiny'), f'<b>{esc(b["name"])}</b>', str(b['weight'])])
 soul = ' → '.join(f'{GN[i]}→{GN[i+1]} {c}개' for i, c in enumerate(PD['soulCost']))
 pc = D['field']['petChance']
 pets += '<h3>상자 팻 8종</h3>'
-pets += f'<p>필드 상자를 깰 때 <b>상자 등급 × 0.2%</b> 확률로 나옵니다(D {pct(pc[0])} ~ SSS {pct(pc[7])}). 아직 상자 팻이 하나도 없으면 <b>{D["field"]["firstPetBoost"]}배</b>(첫 팻 맛보기). 같은 팻이 또 나오면 그 팻의 영혼 1개가 되고, 영혼으로 등급을 올립니다: {soul}. 상자 팻 등급은 키와 빛만 바꾸고 스킬은 없습니다. 키는 신수 팻과 같은 표를 따릅니다(D = 캐릭터의 절반 → SSS = 캐릭터의 2배).</p>'
+pets += f'<p>필드 상자를 깰 때 <b>상자 등급 × 0.2%</b> 확률로 나옵니다(D {pct(pc[0])} ~ SSS {pct(pc[7])}). 아직 상자 팻이 하나도 없으면 <b>{D["field"]["firstPetBoost"]}배</b>(첫 팻 맛보기). 같은 팻이 또 나오면 그 팻의 영혼 1개가 되고, 영혼으로 등급을 올립니다: {soul}. 상자 팻 등급은 키와 빛만 바꾸고 스킬은 없습니다. 키는 신수 팻과 같은 표를 따릅니다(D = 캐릭터의 {PD["heightRatio"][0]:g}배 → SSS = 캐릭터의 {PD["heightRatio"][7]:g}배).</p>'
 pets += table(['', '이름', '팻 상자 비중'], rows, 'pets')
 pets += '<p class="note">팻 상자(상점 149 로벅스)는 상자 팻 8종만 나오고, 이미 가진 팻은 빠집니다. 8종을 다 가졌으면 대신 강화 주문서 15장.</p>'
 pets += '<p class="new">팻 자리: 따라다닐 때는 오른쪽 뒤 · 왼쪽 뒤 · 바로 뒤, 상자를 칠 때는 캐릭터 반대쪽(상자 양옆과 뒤)에 섭니다. 팻마다 실제 몸 크기를 재서 캐릭터 · 다른 팻 · 상자와 겹치지 않게 떨어지고, 각성으로 커지면 그만큼 더 떨어집니다.</p>'
+RD = PD['ride']
+MV = {'glide': '활공', 'swim': '물 위 달리기'}
+rows = []
+for i, m in enumerate(RD['mult'], start=1):
+    rows.append([chip(i), f'×{m:g}', f'{min(RD["baseWalk"] * m, RD["max"]):g}', f'{min(RD["maxWalk"] * m, RD["max"]):g}', f'{min(min(RD["baseWalk"] * m, RD["max"]) * RD["glideBoost"], RD["max"]):g}'])
+ride = '<h3>팻 타기</h3>'
+ride += f'''<ul class="ticks">
+<li><b>타는 법</b>: 1번 칸에 팻이 있으면 <b>🐾 타기</b> 버튼(PC는 R 키)이 보입니다. 타기를 켜 두면 상자를 치는 동안만 저절로 내렸다가, 다 치면 다시 탑니다.</li>
+<li><b>버튼 자리</b>: 폰에서는 공격 버튼 바로 위에 같은 크기로 붙습니다(위에 자리가 없으면 공격 버튼 왼쪽). 점프·공격·메뉴 버튼과 겹치지 않습니다. PC는 화면 오른쪽 가운데.</li>
+<li><b>빠르기</b>: 걷는 속도 × 팻 등급 배수, 최대 {RD["max"]:g}. 시즌 팻은 등급이 없어 {GN[RD["seasonGrade"]-1]} 팻처럼 탑니다.</li>
+<li><b>탈 때 크기</b>: 작은 팻도 타는 동안은 최소 캐릭터 키의 {pct(RD["minRatio"])}까지 커집니다. 큰 팻은 제 크기 그대로.</li>
+</ul>'''
+ride += '<div class="two">' + table(['팻 등급', '배수', '걷기 16일 때', '걷기 최대 28일 때', '활공 (걷기 16)'], rows, 'num')
+moves = ' · '.join(f'<b>{esc(x["name"])}</b>' for x in RD['moves'] if x['move'] == 'glide')
+swims = ' · '.join(f'<b>{esc(x["name"])}</b>' for x in RD['moves'] if x['move'] == 'swim')
+ride += f'''<ul class="ticks">
+<li><b>활공</b> ({moves}): 높은 곳에서 떨어지면 1초에 {RD["glideFall"]:g}스터드씩만 천천히 내려가고, 앞으로는 타는 속도의 {RD["glideBoost"]:g}배로 날아갑니다(최대 {RD["max"]:g}).</li>
+<li><b>물 위 달리기</b> ({swims}): 강과 협곡 개울 위를 가라앉지 않고 달립니다. 물보라가 튑니다. 물에 빠진 채로 타면 물 위로 떠오릅니다.</li>
+<li>둘 다 길을 막는 것은 아닙니다. 강에는 다리가, 고개마다 길이 있습니다. 더 빨리, 더 자유롭게 다니는 길일 뿐입니다.</li>
+</ul></div>'''
+ride += '<div class="two">' + fig('img/fx/ride_glide.webp', '주작을 타고 활공', False) + fig('img/fx/ride_swim.webp', '현무를 타고 물 위 달리기', False) + '</div>'
+pets += ride
 body.append(section('pets', '팻', pets))
 
 # ---------- 8. field ----------
@@ -313,6 +336,7 @@ field += f'<p class="new">보스 상자는 폭 <b>{F["bossSize"]}스터드</b>(S
 field += '<div class="trio">' + fig('img/fx/break1.webp', '상자가 깨질 때 0.15초 — 뚜껑이 열림', False) + fig('img/fx/break2.webp', '0.45초 — 조각이 쏟아지고 빛기둥', False) + fig('img/fx/break4.webp', '1.15초 — 조각이 몸으로 빨려 들어감', False) + '</div>'
 field += '<div class="trio">' + fig('img/fx/move1.webp', '타격 동작: 정권', False) + fig('img/fx/move3.webp', '앞차기', False) + fig('img/fx/move4.webp', '세트 착용 돌려차기', False) + '</div>'
 field += fig(P['상자/전체/front'], '구역별 상자 전체 — 등급이 오를수록 크고 화려해집니다')
+field += '<p class="new">11-11: 들판에 나무·바위·통나무를 촘촘히 세우고(숲은 더 빽빽하게), 바닥에 고사리·풀·버섯·나뭇가지를 깔았습니다. 길과 마을, 상자 자리는 비워 둡니다. 천궁(설산)은 눈 소나무만.</p>' + fig('img/fx/field_forest.webp', '초원 숲 — 나무와 바닥 풀')
 body.append(section('field', '필드: 구역·상자·보스', field, f'광장 한 서버 최대 {F["maxPlayers"]}명. 가운데 광장에서 네 구역으로 갈라집니다.'))
 
 # ---------- 9. rewards ----------
